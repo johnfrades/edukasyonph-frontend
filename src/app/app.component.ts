@@ -33,10 +33,15 @@ export class AppComponent implements OnInit {
   }
 
   public async submit() {
-    await this.appService.submitGradesByText(this.inputFormValue.value);
-    this.msg.success('Grades has been saved.');
-    this.inputFormValue.reset();
-    this.loadGrades();
+    try {
+      await this.appService.submitGradesByText(this.inputFormValue.value);
+      this.msg.success('Grades has been saved.');
+      this.loadGrades();
+    } catch (e) {
+      this.msg.error(e.error);
+    } finally {
+      this.inputFormValue.reset();
+    }
   }
 
   public async deleteQuarter(quarter: string) {
